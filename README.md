@@ -3,7 +3,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Getting Started
 📖 Overview
 
-NotaKilat POS is a high-performance, lightweight web-based Point of Sale application inspired by industry-leading super-apps like GoBiz. Built for micro-merchants and street food vendors, it streamlines product management, sales order tracking, and receipt generation directly from any mobile browser—eliminating expensive POS hardware requirements.
+NotaKilat POS is a high-performance, lightweight web-based Point of Sale application inspired by industry-leading super-apps like GoBiz. Built for micro-merchants and street food vendors, it streamlines product management, sales order tracking, and receipt generation directly from any mobile browser eliminating expensive POS hardware requirements.
 
 ✨ Key Features
 
