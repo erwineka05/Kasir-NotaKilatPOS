@@ -1,159 +1,265 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#  NotaKilat POS
 
-## Getting Started
-📖 Overview
+**A Lightweight, Mobile-First Point of Sale Application**
 
-NotaKilat POS is a high-performance, lightweight web-based Point of Sale application inspired by industry-leading super-apps like GoBiz. Built for micro-merchants and street food vendors, it streamlines product management, sales order tracking, and receipt generation directly from any mobile browser eliminating expensive POS hardware requirements.
+NotaKilat POS is a lightweight, web-based Point of Sale (POS) application designed for micro-businesses, small merchants, and street food vendors. Inspired by modern commerce applications such as GoBiz, it simplifies daily business operations through an intuitive, mobile-first interface.
 
-✨ Key Features
+Built with Next.js and Supabase, NotaKilat POS provides essential tools for managing products, processing transactions, tracking sales, and generating receipts — without requiring dedicated POS hardware.
 
-📱 Mobile-First UI/UX: Designed with a responsive, app-like interface featuring smooth micro-animations, glassmorphism headers, and an intuitive yellow aesthetic theme.
+---
 
-🔐 Secure Authentication: Fast email-based registration and sign-in powered by Supabase Auth.
+## ✨ Key Features
 
-🍔 Product Management (CRUD): Complete inventory control with image upload capabilities stored securely in Supabase Storage.
+### 📱 Mobile-First Interface
+- Responsive and app-like user interface.
+- Modern yellow-themed visual design.
+- Smooth micro-interactions and animations.
+- Glassmorphism-inspired navigation elements.
+- Optimized for mobile browsers.
 
-🛒 Smart Cart & Checkout: Real-time quantity auto-merging for identical items, instant subtotal calculation, and instant cloud order logging.
+### 🔐 Authentication
+- Secure user registration and sign-in.
+- Email-based authentication powered by Supabase Auth.
+- Cloud-based authentication management.
 
-🖨️ Dual Printing Capabilities:
+### 🍔 Product Management
+- Create, read, update, and delete products.
+- Upload and manage product images.
+- Store product images using Supabase Storage.
+- Manage product names, prices, and inventory information.
 
-Browser Native Print: Standard POS print view layout optimized for 58mm thermal paper specs.
+### 🛒 Smart Shopping Cart & Checkout
+- Add products to the shopping cart.
+- Automatically merge identical products.
+- Update product quantities in real time.
+- Calculate subtotals and transaction totals instantly.
+- Save completed transactions to the database.
 
-Direct Web Bluetooth API: Direct ESC/POS byte streaming to pair and print straight to portable Bluetooth thermal printers without print previews.
+### 🖨️ Receipt Printing
 
-📊 Sales Analytics Dashboard: Real-time gross revenue metrics and an interactive breakdown of historical transaction item details.
+NotaKilat POS supports two printing methods:
 
-🛠️ Technology Stack
+**1. Browser Native Printing**
+- Dedicated receipt layout.
+- Optimized for 58mm thermal paper.
+- Supports standard browser print functionality.
 
-Framework: Next.js (App Router, Client Components architecture)
+**2. Bluetooth Thermal Printing**
+- Direct printing using the Web Bluetooth API.
+- ESC/POS command support.
+- Connect compatible Bluetooth thermal printers.
+- Print receipts without opening the browser print dialog.
 
-Styling: Tailwind CSS
+> Note: Web Bluetooth functionality depends on browser support, device compatibility, and a secure context (HTTPS or localhost).
 
-Backend-as-a-Service: Supabase (PostgreSQL Database, Auth, Storage)
+### 📊 Sales Analytics Dashboard
+- Real-time gross revenue overview.
+- Transaction history tracking.
+- Detailed transaction item breakdown.
+- Historical sales information.
 
-Deployment Platform: Vercel
+---
 
-🚀 Getting Started Locally
+## 🛠️ Technology Stack
 
-Prerequisites
+| Technology | Purpose |
+|---|---|
+| Next.js | React framework and application architecture |
+| TypeScript | Type-safe development |
+| Tailwind CSS | Responsive UI styling |
+| Supabase | Backend-as-a-Service |
+| PostgreSQL | Relational database |
+| Supabase Auth | User authentication |
+| Supabase Storage | Product image storage |
+| Web Bluetooth API | Bluetooth thermal printer connectivity |
+| ESC/POS | Thermal printer command protocol |
+| Vercel | Application deployment |
 
-Make sure you have the following installed on your machine:
+---
 
-Node.js (v18 or higher)
+## 🚀 Getting Started
 
-npm or yarn
+Follow these instructions to run NotaKilat POS locally.
 
-A free Supabase account.
+### Prerequisites
 
-1. Clone the Repository
+Make sure you have installed:
 
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- npm, Yarn, pnpm, or Bun
+- A [Supabase](https://supabase.com/) account
+- Git
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/erwineka05/notakilat-pos.git
-cd kasir
 
+cd notakilat-pos
+```
 
-2. Install Dependencies
+### 2. Install Dependencies
 
+```bash
 npm install
+```
 
+### 3. Configure Environment Variables
 
-3. Environment Variables Setup
+Create a `.env.local` file in the root directory and add your Supabase project credentials:
 
-Create a .env.local file in the root directory of your project and populate it with your Supabase credentials:
-
+```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
 
+Replace the placeholder values with your actual Supabase project credentials.
 
-4. Database Schema Setup
+### 4. Configure the Supabase Database
 
-Execute the following SQL commands in your Supabase SQL Editor to create the required tables:
+Open your Supabase Dashboard, navigate to **SQL Editor**, and execute the following SQL commands.
 
--- 1. Products Table
+#### Products Table
+
+```sql
 CREATE TABLE products (
-  id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
-  name TEXT NOT NULL,
-  price NUMERIC NOT NULL,
-  image_url TEXT,
-  created_at TIMESTAMPTZ DEFAULT now() NOT NULL
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    price NUMERIC NOT NULL,
+    image_url TEXT,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
+```
 
--- 2. Transactions Table
+#### Transactions Table
+
+```sql
 CREATE TABLE transactions (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  customer_name TEXT DEFAULT 'Pelanggan Umum',
-  total_amount NUMERIC NOT NULL,
-  is_paid BOOLEAN DEFAULT true,
-  created_at TIMESTAMPTZ DEFAULT now() NOT NULL
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    customer_name TEXT DEFAULT 'Pelanggan Umum',
+    total_amount NUMERIC NOT NULL,
+    is_paid BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT now() NOT NULL
 );
+```
 
--- 3. Transaction Items Table
+#### Transaction Items Table
+
+```sql
 CREATE TABLE transaction_items (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  transaction_id UUID REFERENCES transactions(id) ON DELETE CASCADE,
-  product_id BIGINT REFERENCES products(id) ON DELETE SET NULL,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    transaction_id UUID REFERENCES transactions(id) ON DELETE CASCADE,
+    product_id BIGINT REFERENCES products(id) ON DELETE SET NULL,
     product_name TEXT NOT NULL,
-  quantity INT DEFAULT 1,
-  price NUMERIC NOT NULL
+    quantity INT DEFAULT 1,
+    price NUMERIC NOT NULL
 );
+```
 
+### 5. Configure Supabase Storage
 
-(Note: Ensure you also create a public storage bucket named product-images inside your Supabase Storage dashboard).
+Create a storage bucket with the following configuration:
 
-5. Run the Development Server
+- **Bucket Name:** `product-images`
+- **Public Access:** Enabled
 
-npm run dev
+This bucket is used to store product images uploaded through the application.
 
+Make sure to configure appropriate Row Level Security (RLS) policies for your database tables and storage bucket according to your application's authentication and access requirements.
 
-Open http://localhost:3000 with your browser to see the application.
+**Security Notice:** Never expose your Supabase `service_role` key in client-side code or public environment variables.
 
-🌐 Deployment to Vercel
+### 6. Run the Development Server
 
-Push your repository to GitHub.
-
-Import your project into Vercel.
-
-In the project settings, add your environment variables:
-
-NEXT_PUBLIC_SUPABASE_URL
-
-NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-Click Deploy.
-
-Crucial Step: Go to your Supabase Dashboard -> Authentication -> URL Configuration, and add your Vercel deployment URL to both Site URL and Redirect URLs.
-
-📄 License
-
-Distributed under the MIT License. See LICENSE for more information.
-First, run the development server:
+Start the application using:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser and navigate to:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application should now be running locally.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🌐 Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NotaKilat POS can be deployed using [Vercel](https://vercel.com/).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deployment Steps
 
-## Deploy on Vercel
+1. Push your project repository to GitHub.
+2. Log in to your Vercel account.
+3. Select **Add New Project**.
+4. Import the `notakilat-pos` repository.
+5. Configure the required environment variables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6. Click **Deploy** and wait for the build process to complete.
+
+### Supabase Authentication Configuration
+
+After deployment, configure your authentication URLs:
+
+1. Open your Supabase Dashboard.
+2. Navigate to **Authentication → URL Configuration**.
+3. Set your deployed Vercel URL as the **Site URL**.
+4. Add your deployment URL to the **Redirect URLs** list.
+
+This ensures that authentication redirects work correctly in your production environment.
+
+---
+
+## 📁 Project Structure
+
+The application follows the Next.js App Router architecture.
+
+```text
+notakilat-pos/
+├── app/
+│   ├── page.tsx
+│   ├── layout.tsx
+│   └── ...
+├── public/
+│   └── ...
+├── components/
+│   └── ...
+├── lib/
+│   └── ...
+├── .env.local
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+*Note: The structure above is a general overview. Actual directories may vary depending on the current project implementation.*
+
+---
+
+## 📄 License
+
+This project is distributed under the **MIT License**. See the [LICENSE](LICENSE) file for more information.
+
+---
+
+## 👨‍💻 Author
+
+**Erwin Eka Saputra**
+
+GitHub: [@erwineka05](https://github.com/erwineka05)
+
+---
+
+<p align="center">
+  ⚡ <strong>NotaKilat POS</strong><br/>
+  <em>Faster Transactions, Smarter Business.</em>
+</p>
