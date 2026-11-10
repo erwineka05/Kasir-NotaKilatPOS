@@ -147,7 +147,7 @@ export default function POSPage() {
           
           <div className="flex items-center gap-3">
             <img 
-              src="/logo.png" alt="Logo NotaKilat" 
+              src="/Logo.png" alt="Logo NotaKilat" 
               className="w-11 h-11 object-contain cursor-pointer hover:scale-105 transition-transform duration-200 drop-shadow-sm"
               onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/100x100/eab308/ffffff?text=POS"; }}
             />
